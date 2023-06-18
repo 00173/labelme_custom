@@ -945,7 +945,16 @@ class Canvas(QtWidgets.QWidget):
     def keyPressEvent(self, ev):
         modifiers = ev.modifiers()
         key = ev.key()
-        if self.drawing():
+        # Override to accept movement key event
+        if key == QtCore.Qt.Key_W:
+            self.scrollRequest.emit(10, QtCore.Qt.Vertical)
+        elif key == QtCore.Qt.Key_S:
+            self.scrollRequest.emit(-10, QtCore.Qt.Vertical)
+        elif key == QtCore.Qt.Key_A:
+            self.scrollRequest.emit(10, QtCore.Qt.Horizontal)
+        elif key == QtCore.Qt.Key_D:
+            self.scrollRequest.emit(-10, QtCore.Qt.Horizontal)
+        elif self.drawing():
             if key == QtCore.Qt.Key_Escape and self.current:
                 self.current = None
                 self.drawingPolygon.emit(False)
